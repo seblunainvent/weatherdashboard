@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -27,7 +28,9 @@ public class GlobalExceptionHandlingMiddleware(ILogger<GlobalExceptionHandlingMi
 
             context.Response.ContentType = "application/problem+json";
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            await context.Response.WriteAsJsonAsync(problem);
+
+            var json = JsonSerializer.Serialize(problem);
+            await context.Response.WriteAsync(json);
         }
     }
 }

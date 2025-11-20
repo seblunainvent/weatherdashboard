@@ -7,10 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Location\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\WeatherDashboard.DataProviders.Abstractions\WeatherDashboard.DataProviders.Abstractions.csproj" />
     </ItemGroup>
 
