@@ -144,3 +144,29 @@ This approach ensures consistent, actionable error messages for API consumers wh
 - `src/be/WeatherDashboard.Api/Caching/MemoryLocationCoordinatesCache.cs` — in-memory coordinate cache.
 - `src/be/WeatherDashboard.Core/User/InMemoryUserStorage.cs` — demo user storage.
 - `src/be/WeatherDashboard.Api.Common/ErrorHandling/*` — global and provider-specific exception handling middleware.
+
+## Unit tests
+
+This repository includes several test projects covering controllers, services and data provider logic. Tests are written using xUnit and Moq and are placed under the `src/be` test folders.
+
+Common test projects (folder names reflect the projects in this repo):
+- src/be/WeatherDashboard.Api.Common.Tests
+- src/be/WeatherDashboard.Api.Tests
+- src/be/WeatherDashboard.Core.Tests
+- src/be/WeatherDashboard.DataProviders.OpenWeatherMap.Tests
+
+Run all tests (solution-level)
+- From the repository root:
+  - dotnet test WeatherDashboard.sln
+  - This will restore, build and run all test projects in the solution.
+
+Run a single test project
+- From the repository root run:
+  - dotnet test ./src/be/WeatherDashboard.Api.Tests/WeatherDashboard.Api.Tests.csproj
+  - dotnet test ./src/be/WeatherDashboard.Core.Tests/WeatherDashboard.Core.Tests.csproj
+  - dotnet test ./src/be/WeatherDashboard.Api.Common.Tests/WeatherDashboard.Api.Common.Tests.csproj
+  - dotnet test ./src/be/WeatherDashboard.DataProviders.OpenWeatherMap.Tests/WeatherDashboard.DataProviders.OpenWeatherMap.Tests.csproj
+
+Notes and tips
+- Most unit tests mock external dependencies (IHttpClientFactory, providers, caches) so no external API keys are required.
+- Provider tests that simulate HTTP responses use custom HttpMessageHandler mocks and do not perform real network calls.
