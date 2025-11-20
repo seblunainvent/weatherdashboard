@@ -23,9 +23,20 @@ public class Program
             .AddOpenWeatherMapProvider()
             .AddOpenWeatherMapCoordinatesProvider();
 
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowMyLittleReactFrontendApp",
+                policy =>
+                {
+                    policy.WithOrigins("http://localhost:5173") // React dev server
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+        });
+
         builder.Services.AddTransient<ILocationCoordinatesCache, MemoryLocationCoordinatesCache>();
         builder.Services.AddTransient<IWeatherService, WeatherService>();
-        builder.Services.AddTransient<IUserStorage, InMemoryUserStorage>();
+        builder.Services.AddSingleton<IUserStorage, InMemoryUserStorage>();
         
         builder.Services.AddMemoryCache();
         
@@ -37,6 +48,8 @@ public class Program
         var app = builder.Build();
 
         app.UseResponseCaching();
+
+        app.UseCors("AllowMyLittleReactFrontendApp");
         
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
